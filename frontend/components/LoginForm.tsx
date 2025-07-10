@@ -17,7 +17,6 @@ export default function LoginForm() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     setError(null);
 
     try {
@@ -36,33 +35,64 @@ export default function LoginForm() {
       }
 
       const result = await response.json();
-    } catch (err: any) {
+      console.log(result);
+    } catch (err) {
       setError("Network error");
     }
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      {error && <AlertError>{error}</AlertError>}
-      <InputText
-        label="login"
-        type="text"
-        name="login"
-        value={formData.user.login}
-        onChange={handleChange}
-        placeholder="Enter your Email or Username"
-        required
-      />
-      <InputText
-        label="password"
-        type="password"
-        name="password"
-        value={formData.user.password}
-        onChange={handleChange}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
+      <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8">
+        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+          Login to Your Account
+        </h2>
+
+        <form onSubmit={onSubmit} className="space-y-5">
+          {error && <AlertError>{error}</AlertError>}
+
+          <div>
+            <InputText
+              label="Login"
+              type="text"
+              name="login"
+              value={formData.user.login}
+              onChange={handleChange}
+              placeholder="Enter your Email or Username"
+              required
+            />
+          </div>
+
+          <div>
+            <InputText
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.user.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-200"
+          >
+            Login
+          </button>
+
+          <p className="text-center text-sm text-gray-600 mt-4">
+            Don’t have an account?{" "}
+            <a
+              href="/signup"
+              className="text-blue-600 font-medium hover:underline"
+            >
+              Sign Up
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
   );
 }
