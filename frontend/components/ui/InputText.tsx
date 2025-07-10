@@ -24,7 +24,7 @@ export default function InputText({
         htmlFor={name}
         className="block mb-2 text-sm font-medium text-gray-700"
       >
-        {label}
+        {label.charAt(0).toUpperCase() + label.slice(1)}
       </label>
       <input
         type={type}

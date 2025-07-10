@@ -33,6 +33,7 @@ export default function LoginForm() {
     }
 
     const result = await response.json();
+    console.log("Login token:", result.token);
     console.log("Login success:", result);
   }
 

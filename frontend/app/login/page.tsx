@@ -5,6 +5,12 @@ export default function LoginPage() {
     <>
       <h1>Login Page</h1>
       <LoginForm />
+      <p>
+        Already have an account?{" "}
+        <a href="/signin" className="text-blue-600 underline">
+          Sign In
+        </a>
+      </p>
     </>
   );
 }
