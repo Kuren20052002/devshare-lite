@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import InputText from "@/components/ui/InputText";
 
 export default function SignupForm() {
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     user: {
       first_name: "",
@@ -23,25 +24,27 @@ export default function SignupForm() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    console.log("Sending login request:", JSON.stringify(formData));
+    setError(null);
 
-    const response = await fetch("http://localhost:3001/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("http://localhost:3001/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Login failed:", errorText);
-      return;
+      if (!response.ok) {
+        const errorText = await response.text();
+        setError(errorText || "Login failed");
+        return;
+      }
+
+      const result = await response.json();
+    } catch (err: any) {
+      setError("Network error");
     }
-
-    const result = await response.json();
-    console.log("Login token:", result.token);
-    console.log("Login success:", result);
   }
 
   return (
