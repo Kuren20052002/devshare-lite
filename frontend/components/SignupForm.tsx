@@ -1,11 +1,13 @@
+"use client";
+
 import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
   const [errors, setErrors] = useState<string[]>([]);
-  const Router = useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     user: {
       first_name: "",
@@ -55,14 +57,14 @@ export default function SignupForm() {
       }
 
       const result = await response.json();
-      Router.push("/homepage");
+      router.push("/posts");
     } catch (err) {
       setErrors(["Network error"]);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4 mt-16">
       <div className="bg-white shadow-xl rounded-2xl w-full max-w-lg p-6 sm:p-8">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
           Create an Account

@@ -68,7 +68,7 @@ export default function LoginForm() {
       const result = await response.json();
       if (result.token) {
         localStorage.setItem("token", result.token);
-        Router.push("/homepage");
+        Router.push("/posts");
       } else {
         setError("No token returned");
       }
