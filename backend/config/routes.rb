@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations"
   }
+  # Custom route for verifying JWT token
+  devise_scope :user do
+    get "users/verify_token", to: "users/sessions#verify_token"
+  end
 
   resources :posts # Your post routes
   # Active Storage direct upload routes

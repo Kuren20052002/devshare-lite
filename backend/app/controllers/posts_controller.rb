@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
-
+  before_action :authenticate_user!, except: [ :index, :show ]
   def index
     @posts = Post.all
     render json: @posts.as_json(methods: [ :content_html ])
