@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, use, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,32 @@ export default function LoginForm() {
       user: { ...formData.user, [e.target.name]: e.target.value },
     });
   };
+
+  // Check JWT with server and redirect if valid
+  async function onEntry() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch("http://localhost:3001/users/verify_token", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        Router.push("/homepage");
+      }
+    } catch (err) {
+      // Do nothing, let user login
+    }
+  }
+
+  // Run onEntry on mount
+  useState(() => {
+    onEntry();
+  });
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
