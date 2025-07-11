@@ -1,9 +1,11 @@
 import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Router, useRouter } from "next/router";
 
 export default function SignupForm() {
   const [errors, setErrors] = useState<string[]>([]);
+  const Router = useRouter();
   const [formData, setFormData] = useState({
     user: {
       first_name: "",
@@ -53,7 +55,7 @@ export default function SignupForm() {
       }
 
       const result = await response.json();
-      console.log(result);
+      Router.push("/homepage");
     } catch (err) {
       setErrors(["Network error"]);
     }

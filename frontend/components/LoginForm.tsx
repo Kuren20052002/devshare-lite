@@ -3,12 +3,14 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     user: { login: "", password: "" },
   });
   const [error, setError] = useState<string | null>(null);
+  const Router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,6 +27,7 @@ export default function LoginForm() {
       const response = await fetch("http://localhost:3001/login", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
@@ -37,7 +40,12 @@ export default function LoginForm() {
       }
 
       const result = await response.json();
-      console.log(result);
+      if (result.token) {
+        localStorage.setItem("token", result.token);
+        Router.push("/homepage");
+      } else {
+        setError("No token returned");
+      }
     } catch (err) {
       setError("Network error");
     }
