@@ -11,10 +11,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
 
     if @post.save
-      render json: @post.as_json(methods: [ :content_html ]), status: :created, location: @post
+      attach_tags(@post)
+      render json: @post.as_json(methods: [ :content_html ]), status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -22,6 +23,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
+      attach_tags(@post)
       render json: @post.as_json(methods: [ :content_html ])
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -39,6 +41,12 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:title, :content)
+      params.require(:post).permit(:title, :content, tag_names: [])
+    end
+
+    def attach_tags(post)
+      tag_names = params[:post][:tag_names].first(5) # chỉ lấy tối đa 5 tags
+      tags = tag_names.map { |name| Tag.find_or_create_by(name: name.downcase.strip) }
+      post.tags = tags
     end
 end
