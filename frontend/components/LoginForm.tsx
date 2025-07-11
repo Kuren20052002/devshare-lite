@@ -1,6 +1,8 @@
 import { FormEvent, useState } from "react";
-import { AlertError } from "@/components/ui/Alert";
-import InputText from "@/components/ui/InputText";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -43,17 +45,23 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8">
+      <div className="bg-white shadow-xl rounded-2xl w-full max-w-lg p-6 sm:p-8">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
           Login to Your Account
         </h2>
 
         <form onSubmit={onSubmit} className="space-y-5">
-          {error && <AlertError>{error}</AlertError>}
+          {error && (
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
-          <div>
-            <InputText
-              label="Login"
+          <div className="space-y-2">
+            <Label htmlFor="login">Login</Label>
+            <Input
+              id="login"
               type="text"
               name="login"
               value={formData.user.login}
@@ -63,9 +71,10 @@ export default function LoginForm() {
             />
           </div>
 
-          <div>
-            <InputText
-              label="Password"
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
               type="password"
               name="password"
               value={formData.user.password}
@@ -75,15 +84,15 @@ export default function LoginForm() {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-200"
           >
             Login
-          </button>
+          </Button>
 
           <p className="text-center text-sm text-gray-600 mt-4">
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <a
               href="/signup"
               className="text-blue-600 font-medium hover:underline"

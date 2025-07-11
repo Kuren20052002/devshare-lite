@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
-import InputText from "@/components/ui/InputText";
-import { AlertError } from "@/components/ui/Alert"; // adjust path if needed
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function SignupForm() {
   const [errors, setErrors] = useState<string[]>([]);
@@ -58,30 +58,36 @@ export default function SignupForm() {
       setErrors(["Network error"]);
     }
   }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8">
+      <div className="bg-white shadow-xl rounded-2xl w-full max-w-lg p-6 sm:p-8">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
           Create an Account
         </h2>
 
         <form onSubmit={onSubmit} className="space-y-5">
           {errors.length > 0 && (
-            <AlertError>
-              <ul className="list-disc list-inside space-y-1">
-                {errors.map((err, index) => (
-                  <li key={index} className="text-red-800">
-                    {err}
-                  </li>
-                ))}
-              </ul>
-            </AlertError>
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                <ul className="space-y-1">
+                  {errors.map((err, index) => (
+                    <li key={index} className="text-red-800">
+                      {err}
+                    </li>
+                  ))}
+                </ul>
+              </AlertDescription>
+            </Alert>
           )}
 
           <div className="flex flex-col sm:flex-row sm:gap-4">
             <div className="flex-1">
-              <InputText
-                label="First Name"
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                First Name
+              </label>
+              <Input
                 type="text"
                 name="first_name"
                 value={formData.user.first_name}
@@ -91,8 +97,10 @@ export default function SignupForm() {
               />
             </div>
             <div className="flex-1 mt-5 sm:mt-0">
-              <InputText
-                label="Last Name"
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Last Name
+              </label>
+              <Input
                 type="text"
                 name="last_name"
                 value={formData.user.last_name}
@@ -103,42 +111,58 @@ export default function SignupForm() {
             </div>
           </div>
 
-          <InputText
-            label="Email"
-            type="text"
-            name="email"
-            value={formData.user.email}
-            onChange={handleChange}
-            placeholder="Enter your Email Address"
-            required
-          />
-          <InputText
-            label="Username"
-            type="text"
-            name="username"
-            value={formData.user.username}
-            onChange={handleChange}
-            placeholder="Enter your Username"
-            required
-          />
-          <InputText
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.user.password}
-            onChange={handleChange}
-            placeholder="Enter your Password"
-            required
-          />
-          <InputText
-            label="Confirm Password"
-            type="password"
-            name="password_confirmation"
-            value={formData.user.password_confirmation}
-            onChange={handleChange}
-            placeholder="Enter your password again"
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <Input
+              type="text"
+              name="email"
+              value={formData.user.email}
+              onChange={handleChange}
+              placeholder="Enter your Email Address"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Username
+            </label>
+            <Input
+              type="text"
+              name="username"
+              value={formData.user.username}
+              onChange={handleChange}
+              placeholder="Enter your Username"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <Input
+              type="password"
+              name="password"
+              value={formData.user.password}
+              onChange={handleChange}
+              placeholder="Enter your Password"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
+            <Input
+              type="password"
+              name="password_confirmation"
+              value={formData.user.password_confirmation}
+              onChange={handleChange}
+              placeholder="Enter your password again"
+              required
+            />
+          </div>
 
           <button
             type="submit"
