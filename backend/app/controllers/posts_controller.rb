@@ -8,7 +8,13 @@ class PostsController < ApplicationController
   end
 
   def show
-    render json: @post.as_json(methods: [ :content_html ])
+          render json: @post.as_json(
+        methods: [ :content_html ],
+        include: {
+          tags: { only: [ :id, :name ] },
+          user: { only: [ :id, :username ] }
+        }
+      ), status: :created
   end
 
   def create
