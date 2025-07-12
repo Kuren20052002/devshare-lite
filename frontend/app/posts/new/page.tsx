@@ -6,10 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Alert } from "@/components/ui/alert";
 import { AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
+import TagSelector from "@/components/TagsSelector";
+import { Button } from "@/components/ui/button";
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -27,7 +30,7 @@ export default function NewPostPage() {
         post: {
           title,
           content,
-          tag_names: ["rails", "nextjs"], // example tags
+          tag_names: selectedTags.map((tag) => tag.name),
         },
       }),
     });
@@ -66,10 +69,16 @@ export default function NewPostPage() {
           <CKEditorWrapper value={content} onChange={setContent} />
         </div>
       </div>
-
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white">
+      <TagSelector
+        selectedTags={selectedTags}
+        onChange={(tags) => setSelectedTags(tags)}
+      />
+      <Button
+        type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-200"
+      >
         Submit Post
-      </button>
+      </Button>
     </form>
   );
 }
