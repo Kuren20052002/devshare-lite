@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function LoginForm() {
   });
   const [error, setError] = useState<string | null>(null);
   const Router = useRouter();
+  const { setIsLoggedIn } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -33,7 +35,8 @@ export default function LoginForm() {
       });
 
       if (response.ok) {
-        Router.push("/homepage");
+        setIsLoggedIn(true);
+        Router.push("/posts");
       }
     } catch (err) {
       // Do nothing, let user login
@@ -68,6 +71,7 @@ export default function LoginForm() {
       const result = await response.json();
       if (result.token) {
         localStorage.setItem("token", result.token);
+        setIsLoggedIn(true);
         Router.push("/posts");
       } else {
         setError("No token returned");

@@ -4,9 +4,11 @@ import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function SignupForm() {
   const [errors, setErrors] = useState<string[]>([]);
+  const { setIsLoggedIn } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     user: {
@@ -57,6 +59,7 @@ export default function SignupForm() {
       }
 
       const result = await response.json();
+      setIsLoggedIn(true);
       router.push("/posts");
     } catch (err) {
       setErrors(["Network error"]);
