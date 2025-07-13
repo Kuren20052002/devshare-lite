@@ -1,16 +1,21 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :show ]
   before_action :authorize_owner!, only: %i[ update destroy ]
   def index
     @posts = Post.all
-    render json: @posts.as_json(methods: [ :content_html ])
+    render json: @posts.as_json(
+      include: {
+        tags: { only: [ :id, :name ] },
+        user: { methods: [ :avatar_url ], only: [ :id, :first_name, :last_name ] }
+      }
+    )
   end
 
   def show
-      render json: @post.as_json(
-        methods: [ :content_html ],
-        include: {
+    render json: @post.as_json(
+      methods: [ :content_html ],
+      include: {
           tags: { only: [ :id, :name ] },
           user: { only: [ :id, :username ] }
         }

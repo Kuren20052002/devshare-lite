@@ -4,6 +4,8 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3001 }
+  config.action_controller.default_url_options = { host: "localhost", port: 3001 }
+  Rails.application.routes.default_url_options[:host] = "http://localhost:3001"
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
@@ -36,9 +38,6 @@ Rails.application.configure do
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
-
-  # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

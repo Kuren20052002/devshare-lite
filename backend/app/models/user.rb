@@ -33,10 +33,13 @@ class User < ApplicationRecord
     end
   end
 
+  def avatar_url
+    Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+  end
 
-    def get_default_avatar
-      default_picture_path = Rails.root.join("app", "assets", "images", "default_profile_picture.png")
-      default_picture = File.open(default_picture_path)
-      self.avatar.attach(io: default_picture, filename: "default_profile_pic.png")
-    end
+  def get_default_avatar
+    default_picture_path = Rails.root.join("app", "assets", "images", "default_profile_picture.png")
+    default_picture = File.open(default_picture_path)
+    self.avatar.attach(io: default_picture, filename: "default_profile_pic.png")
+  end
 end

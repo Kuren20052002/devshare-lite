@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "users/show"
   get "tags/index"
-  get "uploads/create"
+  post "/uploads", to: "uploads#create"
   get "/current_user", to: "current_user#index"
   devise_for :users, path: "", path_names: {
     sign_in: "login",
