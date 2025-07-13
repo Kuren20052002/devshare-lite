@@ -4,6 +4,9 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
   has_many :posts, dependent: :destroy
+  has_one_attached :avatar
+
+  after_create :get_default_avatar
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -29,4 +32,11 @@ class User < ApplicationRecord
       where(conditions.to_h).first
     end
   end
+
+
+    def get_default_avatar
+      default_picture_path = Rails.root.join("app", "assets", "images", "default_profile_picture.png")
+      default_picture = File.open(default_picture_path)
+      self.avatar.attach(io: default_picture, filename: "default_profile_pic.png")
+    end
 end

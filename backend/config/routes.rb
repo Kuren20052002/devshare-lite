@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "users/show"
   get "tags/index"
   get "uploads/create"
   get "/current_user", to: "current_user#index"

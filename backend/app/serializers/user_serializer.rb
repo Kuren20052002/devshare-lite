@@ -13,4 +13,13 @@ class UserSerializer
   attribute :last_name do |user|
     user.last_name && user.last_name.match(/\w+/) ? user.last_name.capitalize : nil
   end
+
+  attribute :avatar do |user|
+    if user.avatar.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(
+        user.avatar,
+        host: "http://localhost:3001"
+      )
+    end
+  end
 end
