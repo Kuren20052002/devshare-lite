@@ -6,6 +6,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type User = {
   id: number;
@@ -17,7 +18,7 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, loading } = useAuth();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   const handleLogout = () => {
@@ -74,81 +75,92 @@ export default function Navbar() {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link
-          href="/"
-          className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
-        >
-          DevShare
-        </Link>
+      {loading ? (
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="text-2xl font-bold">
+            <Skeleton className="h-8 w-32 rounded-md" />
+          </div>
+          <div className="flex space-x-4">
+            <Skeleton className="h-10 w-20 rounded-md" />
+            <Skeleton className="h-10 w-10 rounded-full" />
+          </div>
+        </div>
+      ) : (
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <Link
+            href="/"
+            className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+          >
+            DevShare
+          </Link>
 
-        <ul className="hidden md:flex items-center space-x-6 text-gray-700 font-medium">
-          <li className="flex items-center h-full">
-            <Link
-              href="/posts"
-              className="hover:text-blue-500 flex items-center h-10"
-            >
-              Home
-            </Link>
-          </li>
-          {isLoggedIn ? (
-            <>
-              <li className="flex items-center h-full">
-                <Link
-                  href="/posts/new"
-                  className="hover:text-blue-500 flex items-center h-10"
-                >
-                  Create
-                </Link>
-              </li>
-              <li className="flex items-center h-full">
-                <Button
-                  onClick={handleLogout}
-                  className="h-10 flex items-center"
-                >
-                  Logout
-                </Button>
-              </li>
-              <li className="flex items-center h-full">
-                <Link
-                  href="/profile"
-                  className="hover:text-blue-500 flex items-center h-10"
-                >
-                  <Image
-                    src={currentUser?.avatar || "/default-avatar.png"}
-                    alt="Avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full object-cover shadow-sm"
-                  />
-                </Link>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="flex items-center h-full">
-                <Button asChild className="h-10 flex items-center">
-                  <Link href="/login">Login</Link>
-                </Button>
-              </li>
-              <li className="flex items-center h-full">
-                <Button asChild className="h-10 flex items-center">
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-              </li>
-            </>
-          )}
-        </ul>
-        <button
-          className="md:hidden text-gray-700"
-          onClick={() => setMobileOpen((open) => !open)}
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-      </div>
-
+          <ul className="hidden md:flex items-center space-x-6 text-gray-700 font-medium">
+            <li className="flex items-center h-full">
+              <Link
+                href="/posts"
+                className="hover:text-blue-500 flex items-center h-10"
+              >
+                Home
+              </Link>
+            </li>
+            {isLoggedIn ? (
+              <>
+                <li className="flex items-center h-full">
+                  <Link
+                    href="/posts/new"
+                    className="hover:text-blue-500 flex items-center h-10"
+                  >
+                    Create
+                  </Link>
+                </li>
+                <li className="flex items-center h-full">
+                  <Button
+                    onClick={handleLogout}
+                    className="h-10 flex items-center"
+                  >
+                    Logout
+                  </Button>
+                </li>
+                <li className="flex items-center h-full">
+                  <Link
+                    href="/profile"
+                    className="hover:text-blue-500 flex items-center h-10"
+                  >
+                    <Image
+                      src={currentUser?.avatar || "/default-avatar.png"}
+                      alt="Avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-full object-cover shadow-sm"
+                    />
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="flex items-center h-full">
+                  <Button asChild className="h-10 flex items-center">
+                    <Link href="/login">Login</Link>
+                  </Button>
+                </li>
+                <li className="flex items-center h-full">
+                  <Button asChild className="h-10 flex items-center">
+                    <Link href="/signup">Sign Up</Link>
+                  </Button>
+                </li>
+              </>
+            )}
+          </ul>
+          <button
+            className="md:hidden text-gray-700"
+            onClick={() => setMobileOpen((open) => !open)}
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+      )}
       {/* Mobile menu */}
-      {mobileOpen && (
+      {!loading && mobileOpen && (
         <div className="md:hidden bg-white shadow-md">
           <ul className="space-y-4 p-4 text-gray-700 font-medium">
             <li>

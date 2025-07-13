@@ -37,7 +37,6 @@ export default function NewPostPage() {
 
     if (res.ok) {
       const data = await res.json();
-      console.log("Post created:", data);
       router.push(`/posts/${data.id}`);
     } else {
       const errorData = await res.json();
