@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 };
 
 export default nextConfig;

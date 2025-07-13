@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PostCard from "./PostCard";
 import { AuthorProps } from "./AuthorSection";
+import { useSearch } from "@/app/context/SearchContext";
+import PostCard from "./PostCard";
+import PageNumbers from "@/components/PageNumbers";
 
 type Tag = {
   id: number;
@@ -20,24 +22,45 @@ type Post = {
 export default function PostsSection() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true); // ✅ Add loading state
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const { searchQuery, setSearchQuery } = useSearch();
 
   useEffect(() => {
-    fetch("http://localhost:3001/posts", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load posts");
-        return res.json();
-      })
-      .then((data) => setPosts(data))
-      .catch(() => setError("Failed to fetch posts"))
-      .finally(() => setLoading(false)); // ✅ Done loading
-  }, []);
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3001/posts/?page=${page}&query=${encodeURIComponent(
+            searchQuery
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Failed to fetch");
+
+        const data = await res.json();
+        setPosts(data.posts || []);
+        setTotalPages(data.meta?.total_pages || 1);
+      } catch (err) {
+        console.error("Failed to fetch posts", err);
+        setError("Could not load posts. Please try again.");
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, [page, searchQuery]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
 
   return (
     <section className="bg-white py-24 sm:py-32">
@@ -79,6 +102,9 @@ export default function PostsSection() {
           </div>
         )}
       </div>
+      {totalPages > 1 && (
+        <PageNumbers page={page} totalPages={totalPages} setPage={setPage} />
+      )}
     </section>
   );
 }

@@ -44,7 +44,7 @@ export default function PostCard({
 
       <div className="group relative mt-3">
         <h3 className="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-          <Link href={`/posts/${id}`}>
+          <Link href={`/posts/${id}`} className="line-clamp-3">
             <span className="absolute inset-0" />
             {title}
           </Link>

@@ -2,11 +2,14 @@
 
 import { ReactNode } from "react";
 import { useRequireAuth } from "@/lib/hooks/useRequiredAuth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function PostsLayout({ children }: { children: ReactNode }) {
   const { isLoggedIn, loading } = useRequireAuth();
   const router = useRouter();
+  const path = usePathname();
+
+  const isShowPage = /^\/posts\/\d+$/.test(path);
 
   if (loading) {
     return (
@@ -19,7 +22,7 @@ export default function PostsLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && !isShowPage) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white p-8 rounded-xl shadow-lg max-w-[90vw] w-[400px] text-center">

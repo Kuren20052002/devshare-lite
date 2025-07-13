@@ -7,6 +7,8 @@ class Post < ApplicationRecord
 
   validates :title, presence: true
 
+  paginates_per 12
+
   def content_html
     content.body.to_html if content.present?
   end
