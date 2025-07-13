@@ -1,4 +1,3 @@
-// app/posts/layout.tsx
 "use client";
 
 import { ReactNode } from "react";
@@ -6,8 +5,20 @@ import { useRequireAuth } from "@/lib/hooks/useRequiredAuth";
 import { useRouter } from "next/navigation";
 
 export default function PostsLayout({ children }: { children: ReactNode }) {
-  const isLoggedIn = useRequireAuth();
+  const { isLoggedIn, loading } = useRequireAuth();
   const router = useRouter();
+
+  if (loading) {
+    return (
+      <div class="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
+        <span class="sr-only">Loading...</span>
+        <div class="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+        <div class="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+        <div class="h-8 w-8 bg-black rounded-full animate-bounce"></div>
+      </div>
+    );
+  }
+
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -23,7 +34,7 @@ export default function PostsLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
     );
-  } // Wait for redirect
+  }
 
   return <>{children}</>;
 }
