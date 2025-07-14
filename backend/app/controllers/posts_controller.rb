@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   def index
     posts = Post.includes(:tags, :user)
     posts = posts.where("title ILIKE ?", "%#{params[:query]}%") if params[:query].present?
+    posts = posts.order(created_at: :desc)
     paginated = posts.page(params[:page] || 1)
 
     render json: {
@@ -28,7 +29,7 @@ class PostsController < ApplicationController
       methods: [ :content_html ],
       include: {
         tags: { only: %i[id name] },
-        user: { only: %i[id username] }
+        user: { methods: [ :avatar_url], only: %i[id first_name last_name] }
       }
     )
   end
