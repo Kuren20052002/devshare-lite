@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
+    if @post.update(post_params.merge(content: params[:content]))
       attach_tags(@post)
       render json: @post.as_json(methods: [ :content_html ])
     else
