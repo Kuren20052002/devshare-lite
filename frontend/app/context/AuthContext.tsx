@@ -11,7 +11,6 @@ import {
 type User = {
   id: number;
   email: string;
-  // add other fields you expose from your serializer
 };
 
 type AuthContextType = {

@@ -6,6 +6,9 @@ import { AuthorProps } from "./PostCard/AuthorSection";
 import { METHODS } from "http";
 import PostsLayout from "@/app/posts/layout";
 import { AuthorInfo } from "@/components/PostCard/AuthorSection";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   id: string;
@@ -21,6 +24,8 @@ type Post = {
 export default function PostDetail({ id }: Props) {
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { user, isLoggedIn } = useAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -46,6 +51,8 @@ export default function PostDetail({ id }: Props) {
   if (!post)
     return <p className="text-center py-8 text-red-500">Post not found.</p>;
 
+  console.log("Current User id", user?.id);
+  console.log("Post's User id", post.user.id);
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-24">
       {loading ? (
@@ -61,6 +68,17 @@ export default function PostDetail({ id }: Props) {
         </div>
       ) : post ? (
         <>
+          {user?.id === post.user.id && (
+            <div className="flex flex-nowrap gap-3 mb-8 h-8 w-full max-[300px]:flex-wrap">
+              <Button
+                onClick={() => router.push(`/posts/edit/${id}`)}
+                className="w-1/2 max-[300px]:w-full"
+              >
+                Edit Post
+              </Button>
+              <Button className="w-1/2 max-[300px]:w-full">Delete Post</Button>
+            </div>
+          )}
           <h1 className="text-3xl font-bold">{post.title}</h1>
           <p className="text-gray-500 text-sm">
             Published on{" "}
