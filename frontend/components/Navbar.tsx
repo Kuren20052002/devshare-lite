@@ -220,9 +220,7 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                   >
                     <Image
-                      src={
-                        currentUser?.avatar ?? "/default_profile_picture.svg"
-                      }
+                      src={currentUser?.avatar as string}
                       alt="Avatar"
                       width={32}
                       height={32}

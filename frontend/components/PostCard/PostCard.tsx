@@ -13,7 +13,7 @@ interface PostCardProps {
   title: string;
   date: string;
   author: AuthorProps;
-  tags: Tag[]; // Add this
+  tags: Tag[];
 }
 
 export default function PostCard({

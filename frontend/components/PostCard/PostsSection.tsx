@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AuthorProps } from "./AuthorSection";
 import { useSearch } from "@/app/context/SearchContext";
+import { Skeleton } from "@/components/ui/skeleton";
 import PostCard from "./PostCard";
 import PageNumbers from "@/components/PageNumbers";
 
@@ -77,7 +78,7 @@ export default function PostsSection() {
         {error ? (
           <p className="mt-10 text-red-600">{error}</p>
         ) : (
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-20 lg:max-w-none lg:grid-cols-3">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-8 lg:max-w-none lg:grid-cols-3">
             {loading
               ? Array.from({ length: 3 }).map((_, i) => (
                   <PostCardSkeleton key={i} />
@@ -111,13 +112,13 @@ export default function PostsSection() {
 
 function PostCardSkeleton() {
   return (
-    <div className="animate-pulse p-4 border rounded-lg shadow-sm space-y-4">
-      <div className="h-4 w-1/3 bg-gray-300 rounded" />
-      <div className="h-6 w-3/4 bg-gray-300 rounded" />
-      <div className="h-4 w-full bg-gray-200 rounded" />
+    <div className="p-4 border rounded-lg shadow-sm space-y-4">
+      <Skeleton className="h-4 w-1/3" />
+      <Skeleton className="h-6 w-3/4" />
+      <Skeleton className="h-4 w-full" />
       <div className="flex items-center gap-3 mt-4">
-        <div className="h-10 w-10 rounded-full bg-gray-300" />
-        <div className="h-4 w-24 bg-gray-200 rounded" />
+        <Skeleton className="h-10 w-10 rounded-full" />
+        <Skeleton className="h-4 w-24" />
       </div>
     </div>
   );
