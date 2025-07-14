@@ -5,14 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
-
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     user: { login: "", password: "" },
   });
   const [error, setError] = useState<string | null>(null);
   const Router = useRouter();
-  const { setIsLoggedIn } = useAuth();
+  const { setToken, setIsLoggedIn } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -71,6 +70,7 @@ export default function LoginForm() {
       const result = await response.json();
       if (result.token) {
         localStorage.setItem("token", result.token);
+        setToken(result.token);
         setIsLoggedIn(true);
         Router.push("/posts");
       } else {

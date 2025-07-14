@@ -8,7 +8,7 @@ import { useAuth } from "@/app/context/AuthContext";
 
 export default function SignupForm() {
   const [errors, setErrors] = useState<string[]>([]);
-  const { setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn, setToken } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     user: {
@@ -59,6 +59,8 @@ export default function SignupForm() {
       }
 
       const result = await response.json();
+      localStorage.setItem("token", result.token);
+      setToken(result.token);
       setIsLoggedIn(true);
       router.push("/posts");
     } catch (err) {

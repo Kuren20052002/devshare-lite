@@ -18,6 +18,7 @@ type AuthContextType = {
   setIsLoggedIn: (loggedIn: boolean) => void;
   user: User | null;
   loading: boolean;
+  setToken: (token: string | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,9 +27,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
+
+  useEffect(() => {
     if (!token) {
       setIsLoggedIn(false);
       setUser(null);
@@ -57,10 +63,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, loading }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, user, loading, setToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -20,13 +20,15 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn, loading } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, loading, setToken } = useAuth();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const { searchQuery, setSearchQuery } = useSearch();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    localStorage.removeItem("token");
+    setToken(null);
     setCurrentUser(null);
     setMobileOpen(false);
   };
