@@ -1,23 +1,28 @@
 Rails.application.routes.draw do
-  get "users/show"
-  get "tags/index"
-  post "/uploads", to: "uploads#create"
-  get "/current_user", to: "current_user#index"
-  devise_for :users, path: "", path_names: {
-    sign_in: "login",
-    sign_out: "logout",
-    registration: "signup"
-  },
-  controllers: {
-    sessions: "users/sessions",
-    registrations: "users/registrations"
-  }
-  # Custom route for verifying JWT token
+  resources :tags, only: [ :index ]
+  resources :users, only: [ :show ]
+  resources :uploads, only: [ :create ] # Tải ảnh lên server(Cho CKEditor)
+
+  devise_for :users,
+             path: "",
+             path_names: {
+               sign_in: "login",
+               sign_out: "logout",
+               registration: "signup"
+             },
+             controllers: {
+               sessions: "users/sessions",
+               registrations: "users/registrations"
+             }
+
   devise_scope :user do
     get "users/verify_token", to: "users/sessions#verify_token"
   end
 
-  resources :posts # Your post routes
+  get "/current_user", to: "current_user#index"
+
+  resources :posts
+
   # Active Storage direct upload routes
   post "/rails/active_storage/direct_uploads", to: "active_storage/direct_uploads#create"
 
