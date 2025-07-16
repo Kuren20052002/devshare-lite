@@ -140,11 +140,11 @@ export default function Navbar() {
                   </li>
                   <li className="flex items-center h-full">
                     <Link
-                      href="/profile"
+                      href={`/user/${currentUser?.id}`}
                       className="hover:text-blue-500 flex items-center h-10"
                     >
                       <Image
-                        src={currentUser?.avatar || "/default-avatar.png"}
+                        src={currentUser?.avatar as string}
                         alt="Avatar"
                         width={40}
                         height={40}
@@ -217,7 +217,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href="/profile"
+                    href={`/user/${currentUser?.id}`}
                     className="flex items-center space-x-2 hover:text-blue-500"
                     onClick={() => setMobileOpen(false)}
                   >
