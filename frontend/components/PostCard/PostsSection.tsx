@@ -20,7 +20,11 @@ type Post = {
   tags: Tag[];
 };
 
-export default function PostsSection() {
+type Props = {
+  user_id?: string;
+};
+
+export default function PostsSection({ user_id = "" }: Props) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -31,8 +35,13 @@ export default function PostsSection() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        console.log(
+          `http://localhost:3001/posts/?user_id=${user_id}&page=${page}&query=${encodeURIComponent(
+            searchQuery
+          )}`
+        );
         const res = await fetch(
-          `http://localhost:3001/posts/?page=${page}&query=${encodeURIComponent(
+          `http://localhost:3001/posts/?user_id=${user_id}&page=${page}&query=${encodeURIComponent(
             searchQuery
           )}`,
           {
@@ -64,19 +73,10 @@ export default function PostsSection() {
   }, [searchQuery]);
 
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-white py-2 sm:py-2">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-            Latest Posts
-          </h2>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
-            Stay up to date with our newest articles and guides.
-          </p>
-        </div>
-
         {error ? (
-          <p className="mt-10 text-red-600">{error}</p>
+          <p className=" text-red-600">{error}</p>
         ) : (
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-8 lg:max-w-none lg:grid-cols-3">
             {loading
