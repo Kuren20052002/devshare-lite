@@ -5,7 +5,13 @@ class PostsController < ApplicationController
 
   def index
     posts = Post.includes(:tags, :user)
-    posts = posts.where("title ILIKE ?", "%#{params[:query]}%") if params[:query].present?
+
+    if params[:user_id].present?
+      posts = posts.where(user_id: params[:user_id])
+    else
+      posts = posts.where("title ILIKE ?", "%#{params[:query]}%") if params[:query].present?
+    end
+
     posts = posts.order(created_at: :desc)
     paginated = posts.page(params[:page] || 1)
 
@@ -29,7 +35,7 @@ class PostsController < ApplicationController
       methods: [ :content_html ],
       include: {
         tags: { only: %i[id name] },
-        user: { methods: [ :avatar_url], only: %i[id first_name last_name] }
+        user: { methods: [ :avatar_url ], only: %i[id first_name last_name] }
       }
     )
   end
