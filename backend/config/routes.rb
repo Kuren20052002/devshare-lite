@@ -16,6 +16,7 @@ Rails.application.routes.draw do
              }
 
   devise_scope :user do
+    put "users/:id", to: "users#update_info"
     get "users/verify_token", to: "users/sessions#verify_token"
   end
 
