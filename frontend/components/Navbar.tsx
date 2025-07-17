@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchBar from "@/components/SearchBar";
 import { useSearch } from "@/app/context/SearchContext";
-
 type User = {
   id: number;
   username: string;
@@ -144,7 +143,10 @@ export default function Navbar() {
                       className="hover:text-blue-500 flex items-center h-10"
                     >
                       <Image
-                        src={currentUser?.avatar as string}
+                        src={
+                          (currentUser?.avatar as string) ||
+                          "/avatar-default-svgrepo-com.png"
+                        }
                         alt="Avatar"
                         width={40}
                         height={40}
@@ -222,7 +224,10 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                   >
                     <Image
-                      src={currentUser?.avatar as string}
+                      src={
+                        (currentUser?.avatar as string) ||
+                        "/avatar-default-svgrepo-com.png"
+                      }
                       alt="Avatar"
                       width={32}
                       height={32}

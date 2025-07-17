@@ -1,3 +1,5 @@
+"use client";
+
 import { FormEvent, use, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
