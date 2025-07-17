@@ -5,13 +5,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import PostsSection from "./PostCard/PostsSection";
+import Image from "next/image";
 interface User {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
-  avatar_url?: string;
-  cover_picture_url?: string;
+  avatar_url: string;
+  cover_picture_url: string;
   bio?: string;
   github?: string;
   linkedin?: string;
@@ -75,19 +76,25 @@ export default function UserProfile({ id }: Props) {
 
   return (
     <section className="w-full overflow-hidden dark:bg-gray-900">
-      <div className="flex flex-col mt-[80px]">
-        <img
-          src={profileUser.cover_picture_url}
-          alt="User Cover"
-          className="w-full object-cover max-h-[340px]"
-        />
+      <div className="flex flex-col mt-[70px]">
+        <div className="relative w-full h-[150px] sm:h-[200px] md:h-[250px] lg:h-[340px] overflow-hidden rounded-md bg-gray-200 dark:bg-gray-700">
+          <Image
+            src={profileUser.cover_picture_url}
+            alt="User Cover"
+            fill
+            className="object-cover"
+          />
+        </div>
 
         <div className="w-[90%] sm:w-[80%] mx-auto flex flex-col sm:flex-row relative items-center -mt-8">
-          <img
-            src={profileUser.avatar_url}
-            alt="User Profile"
-            className="rounded-md w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 outline outline-2 outline-offset-2 outline-blue-500 relative -top-16 sm:top-0 bg-white object-cover"
-          />
+          <div className="rounded-md w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 outline outline-2 outline-offset-2 outline-blue-500 relative -top-16 sm:top-0 bg-white object-cover">
+            <Image
+              src={profileUser.avatar_url}
+              alt="User Profile"
+              fill
+              className="object-cover"
+            />
+          </div>
 
           <h1 className="w-full text-center sm:text-left mx-4 -mt-4 sm:mt-0 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-2xl text-xl font-serif">
             {profileUser.first_name} {profileUser.last_name}
@@ -104,8 +111,8 @@ export default function UserProfile({ id }: Props) {
           )}
         </div>
 
-        <div className="xl:w-[80%] lg:w-[90%] md:w-[90%] sm:w-[92%] w-[90%] mx-auto flex flex-col gap-4 items-center relative">
-          <p className="w-fit text-gray-700 dark:text-gray-400 text-md">
+        <div className="xl:w-[80%] lg:w-[90%] md:w-[90%] sm:w-[92%] w-[90%] mx-auto flex flex-col gap-4 items-center relative mt-[20px]">
+          <p className="w-fit text-gray-700 dark:text-gray-400 text-xl">
             {profileUser.bio || "No bio available"}
           </p>
 
@@ -141,7 +148,7 @@ export default function UserProfile({ id }: Props) {
               </div>
             </div>
 
-            <div className="flex gap-4 mt-6 border-t border-black">
+            <div className="flex gap-4 mt-2 border-b border-black pb-6">
               {profileUser.github && (
                 <a
                   href={profileUser.github}
