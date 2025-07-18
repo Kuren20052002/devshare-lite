@@ -12,7 +12,7 @@ export function AuthorInfo({ author }: { author: AuthorProps }) {
   const author_name = author.first_name + " " + author.last_name;
 
   return (
-    <div className="relative mt-4 flex justify-start gap-x-2">
+    <div className="relative mt-4 flex justify-start gap-x-2 mt-2">
       <div className="flex-none">
         <span className="relative rounded-full">
           <span
