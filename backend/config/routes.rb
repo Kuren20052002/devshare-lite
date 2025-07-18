@@ -22,9 +22,12 @@ Rails.application.routes.draw do
 
   get "/current_user", to: "current_user#index"
 
-  resources :posts
+  resources :posts do
+    resources :comments do
+      get "replies", on: :member, to: "comments#replies_for_comment"
+    end
+  end
 
-  # Active Storage direct upload routes
   post "/rails/active_storage/direct_uploads", to: "active_storage/direct_uploads#create"
 
 

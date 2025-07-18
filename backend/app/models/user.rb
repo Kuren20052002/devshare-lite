@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
   has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_one_attached :avatar
   has_one_attached :cover_picture
 
