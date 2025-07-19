@@ -58,11 +58,7 @@ export default function SignupForm() {
         return;
       }
 
-      const result = await response.json();
-      localStorage.setItem("token", result.token);
-      setToken(result.token);
-      setIsLoggedIn(true);
-      router.push("/posts");
+      router.push("/login/?message=created");
     } catch (err) {
       setErrors(["Network error"]);
     }

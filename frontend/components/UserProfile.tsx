@@ -5,7 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import PostsSection from "./PostCard/PostsSection";
-import Image from "next/image";
 interface User {
   id: string;
   first_name: string;
@@ -77,24 +76,18 @@ export default function UserProfile({ id }: Props) {
   return (
     <section className="w-full overflow-hidden dark:bg-gray-900">
       <div className="flex flex-col mt-[70px]">
-        <div className="relative w-full h-[150px] sm:h-[200px] md:h-[250px] lg:h-[340px] overflow-hidden rounded-md bg-gray-200 dark:bg-gray-700">
-          <Image
-            src={profileUser.cover_picture_url}
-            alt="User Cover"
-            fill
-            className="object-cover"
-          />
-        </div>
+        <img
+          src={profileUser.cover_picture_url}
+          alt="User Cover"
+          className="w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem]"
+        />
 
         <div className="w-[90%] sm:w-[80%] mx-auto flex flex-col sm:flex-row relative items-center -mt-8">
-          <div className="rounded-md w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 outline outline-2 outline-offset-2 outline-blue-500 relative -top-16 sm:top-0 bg-white object-cover">
-            <Image
-              src={profileUser.avatar_url}
-              alt="User Profile"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <img
+            src={profileUser.avatar_url}
+            alt="User Profile"
+            className="rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[2rem] sm:bottom-[4rem] bottom-[3rem] shadow"
+          />
 
           <h1 className="w-full text-center sm:text-left mx-4 -mt-4 sm:mt-0 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-2xl text-xl font-serif">
             {profileUser.first_name} {profileUser.last_name}

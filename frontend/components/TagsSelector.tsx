@@ -21,7 +21,7 @@ export default function TagSelector({ selectedTags, onChange }: Props) {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/tags/index")
+    fetch("http://localhost:3001/tags")
       .then((res) => res.json())
       .then((data) => setTags(data))
       .catch(() => setError("Failed to fetch tags"));

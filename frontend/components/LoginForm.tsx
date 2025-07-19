@@ -1,12 +1,13 @@
 "use client";
 
-import { FormEvent, use, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
+
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     user: { login: "", password: "" },
@@ -14,6 +15,8 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const Router = useRouter();
   const { setToken, setIsLoggedIn } = useAuth();
+  const searchParams = useSearchParams();
+  const [infoMessage, setInfoMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -22,32 +25,33 @@ export default function LoginForm() {
     });
   };
 
-  // Check JWT with server and redirect if valid
+  // nếu token còn hạn, user không cần login
   async function onEntry() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    try {
-      const response = await fetch("http://localhost:3001/users/verify_token", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const response = await fetch("http://localhost:3001/users/verify_token", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (response.ok) {
-        setIsLoggedIn(true);
-        Router.push("/posts");
-      }
-    } catch (err) {
-      // Do nothing, let user login
+    if (response.ok) {
+      setIsLoggedIn(true);
+      Router.push("/posts");
     }
   }
 
-  // Run onEntry on mount
   useState(() => {
     onEntry();
   });
+
+  useEffect(() => {
+    if (searchParams.get("message") === "created") {
+      setInfoMessage("Account created successfully. Please log in.");
+    }
+  }, [searchParams]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -95,6 +99,13 @@ export default function LoginForm() {
             <Alert variant="destructive">
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {infoMessage && (
+            <Alert className="mb-4" variant="default">
+              <AlertTitle>Notice</AlertTitle>
+              <AlertDescription>{infoMessage}</AlertDescription>
             </Alert>
           )}
 
