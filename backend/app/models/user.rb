@@ -8,7 +8,8 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_one_attached :cover_picture
 
-  after_create [ :get_default_pictures, :get_default_bio ]
+  after_create :get_default_pictures
+  after_create :get_default_bio
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
