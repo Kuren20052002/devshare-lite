@@ -79,14 +79,14 @@ export default function UserProfile({ id }: Props) {
         <img
           src={profileUser.cover_picture_url}
           alt="User Cover"
-          className="w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem]"
+          className="w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem] object-cover object-center"
         />
 
-        <div className="w-[90%] sm:w-[80%] mx-auto flex flex-col sm:flex-row relative items-center -mt-8">
+        <div className="w-[90%] sm:w-[80%] mx-auto flex flex-col sm:flex-row relative items-center object-cover object-center -mt-8">
           <img
             src={profileUser.avatar_url}
             alt="User Profile"
-            className="rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[2rem] sm:bottom-[4rem] bottom-[3rem] shadow"
+            className="bg-white rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[2rem] sm:bottom-[4rem] bottom-[3rem] shadow"
           />
 
           <h1 className="w-full text-center sm:text-left mx-4 -mt-4 sm:mt-0 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-2xl text-xl font-serif">
