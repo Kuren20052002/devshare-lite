@@ -34,7 +34,6 @@
 5. **Trang cá nhân**
    - Hiển thị thông tin người dùng (tên, email, bio, avatar, ảnh nền, liên kết GitHub/Facebook/LinkedIn).
    - Chỉnh sửa thông tin cá nhân.
-   - Danh sách bài viết đã đăng và bài viết ở trạng thái nháp (draft).
 
 ##  Công nghệ sử dụng
 
